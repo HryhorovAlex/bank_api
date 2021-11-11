@@ -1,35 +1,28 @@
-import express, { Application } from 'express'
-import dotenv from 'dotenv'
+import express, { Application } from 'express';
+import dotenv from 'dotenv';
 
-import { branchRouter } from './Routes/branch.routes'
-import { authMiddleWare } from './Middleware/auth.middleware'
-import { noRouteMiddleWare } from './Middleware/noRoute.middleware'
-import { errorMiddleware } from './Middleware/error.middleware'
+import { branchRouter } from './Routes/branch.routes';
+import { authMiddleWare } from './Middleware/auth.middleware';
+import { noRouteMiddleWare } from './Middleware/noRoute.middleware';
+import { errorMiddleware } from './Middleware/error.middleware';
 
-dotenv.config()
+dotenv.config();
 
-const app: Application = express()
+const app: Application = express();
 
-const port: string = process.env.PORT!
+const port: string = process.env.PORT!;
 
-// app.use(authMiddleWare);
+app.use(authMiddleWare);
 
-// app.use("/branch", branchRouter);
+app.use('/branch', branchRouter);
 
-// app.use(noRouteMiddleWare);
+app.use(noRouteMiddleWare);
 
-// error handler
+app.use(function (req, res, next) {
+  console.log('Time:', Date.now());
+  next();
+});
 
-app.use('/', async (req, res, next) => {
-  try {
-    await new Promise((resolve, reject) => setTimeout(() => reject('Test error'), 1000))
-    res.json({ message: 'hello' })
-  } catch (error) {
-    console.log(error, 1)
-    next(error)
-  }
-})
+app.use(errorMiddleware);
 
-app.use(errorMiddleware)
-
-app.listen(port, () => console.log(`server run on port ${port}`))
+app.listen(port, () => console.log(`server run on port ${port}`));

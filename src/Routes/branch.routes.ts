@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { getBranch } from "../Controllers/branch.controllers";
+import { getBranch } from '../Controllers/branch.controllers';
 
 const branchRouter: Router = Router();
 
-branchRouter.get("/", getBranch);
+branchRouter.get('/', getBranch);
 
 export { branchRouter };
