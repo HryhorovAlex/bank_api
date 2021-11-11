@@ -12,15 +12,14 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": ["error"],
+    "no-console": "off",
     "import/prefer-default-export": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
       {
         "js": "never",
-        "jsx": "never",
         "ts": "never",
-        "tsx": "never"
       }
     ],
     "import/no-unresolved": "off"
