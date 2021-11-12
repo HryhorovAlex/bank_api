@@ -1,9 +1,11 @@
 import { Router } from 'express';
 
-import { getBranch } from '../Controllers/branch.controllers';
+import { BranchController } from '../Controllers';
 
-const branchRouter: Router = Router();
+export const branchRouter: Router = Router();
 
-branchRouter.get('/', getBranch);
-
-export { branchRouter };
+branchRouter.get('/:branchId', BranchController.getOne);
+branchRouter.get('/', BranchController.getAll);
+branchRouter.post('/', BranchController.createBranch);
+branchRouter.patch('/', BranchController.updateBranch);
+branchRouter.delete('/', BranchController.deleteBranch);
