@@ -1,27 +1,36 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
+import { createConnection } from 'typeorm';
 
 import { authRouter, branchRouter, employeeRouter, userRouter } from './Routes';
 import { authMiddleWare, noRouteMiddleWare, errorMiddleware } from './Middleware';
 
 dotenv.config();
 
-const app: Application = express();
+createConnection()
+  .then(() => {
+    console.log('DB connected!');
 
-const port: string = process.env.PORT!;
+    const app: Application = express();
 
-app.use('/', authRouter);
+    const port: string = process.env.PORT!;
 
-app.use(authMiddleWare);
+    app.use('/', authRouter);
 
-app.use('/branch', branchRouter);
+    app.use(authMiddleWare);
 
-app.use('/employee', employeeRouter);
+    app.use('/branch', branchRouter);
 
-app.use('/user', userRouter);
+    app.use('/employee', employeeRouter);
 
-app.use(noRouteMiddleWare);
+    app.use('/user', userRouter);
 
-app.use(errorMiddleware);
+    app.use(noRouteMiddleWare);
 
-app.listen(port, () => console.log(`server run on port ${port}`));
+    app.use(errorMiddleware);
+
+    app.listen(port, () => console.log(`server run on port ${port}`));
+  })
+  .catch((error) => {
+    console.log(error);
+  });
