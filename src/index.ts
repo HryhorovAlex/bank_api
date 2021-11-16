@@ -1,35 +1,25 @@
-import express, { Application } from 'express';
-import dotenv from 'dotenv';
-import { createConnection } from 'typeorm';
+import { createConnection, Connection } from 'typeorm';
 
-import { authRouter, branchRouter, employeeRouter, userRouter } from './Routes';
-import { authMiddleWare, noRouteMiddleWare, errorMiddleware } from './Middleware';
+import { runServer } from './app';
 
-dotenv.config();
+createConnection({
+  type: 'mysql',
+  host: process.env.DB_HOST,
+  port: Number(process.env.MYSQLDB_PORT),
+  username: process.env.MYSQLDB_USER,
+  password: process.env.MYSQLDB_ROOT_PASSWORD,
+  database: process.env.MYSQLDB_DATABASE,
+  entities: ['src/entity/*.ts'],
+  logging: true,
+  synchronize: true,
+})
+  .then(async (connection: Connection) => {
+    console.log('[Database]: connected');
 
-createConnection()
-  .then(() => {
-    console.log('DB connected!');
+    await connection.runMigrations();
+    console.log('[Migration]: completed');
 
-    const app: Application = express();
-
-    const port: string = process.env.PORT!;
-
-    app.use('/', authRouter);
-
-    app.use(authMiddleWare);
-
-    app.use('/branch', branchRouter);
-
-    app.use('/employee', employeeRouter);
-
-    app.use('/user', userRouter);
-
-    app.use(noRouteMiddleWare);
-
-    app.use(errorMiddleware);
-
-    app.listen(port, () => console.log(`server run on port ${port}`));
+    runServer();
   })
   .catch((error) => {
     console.log(error);
