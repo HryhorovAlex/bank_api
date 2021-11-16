@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
+import { UserService } from '../Services';
 
 export class UserController {
+  constructor(private userService: UserService) {}
   static async getOne(req: Request, res: Response, next: NextFunction) {
     try {
       const user: string = await new Promise((resolve) =>

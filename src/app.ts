@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
 
 import { authRouter, branchRouter, employeeRouter, userRouter } from './Routes';
 import { authMiddleWare, noRouteMiddleWare, errorMiddleware } from './Middleware';
@@ -9,6 +10,9 @@ dotenv.config();
 const app: Application = express();
 
 const port: string = process.env.PORT!;
+
+app.use(bodyParser.json());
+
 app.use('/', authRouter);
 
 app.use(authMiddleWare);
