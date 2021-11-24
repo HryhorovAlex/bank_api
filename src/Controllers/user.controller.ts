@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { userService } from '../Services';
+// import { userService } from '../Services';
 
 export class UserController {
-  constructor() {}
-  static async getOne(req: Request, res: Response, next: NextFunction) {
+  public async getOne(req: Request, res: Response, next: NextFunction) {
     try {
       const user: string = await new Promise((resolve) =>
         setTimeout(() => resolve(`Requested user ${req.params.userId}`), 1000)
@@ -14,7 +13,7 @@ export class UserController {
     }
   }
 
-  static async getAll(req: Request, res: Response, next: NextFunction) {
+  public async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const users: string = await new Promise((resolve) =>
         setTimeout(() => resolve('Get all users'), 1000)
@@ -25,3 +24,5 @@ export class UserController {
     }
   }
 }
+
+export const userController = new UserController();
