@@ -5,6 +5,7 @@ services:
     container_name: bank_mysql_db
     env_file:
       - ./.env.docker
+    platform: linux/x86_64
     image: mysql
     restart: always
     environment:
