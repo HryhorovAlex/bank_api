@@ -6,6 +6,6 @@ export const branchRouter: Router = Router();
 
 branchRouter.get('/:id', branchController.getOne);
 branchRouter.get('/', branchController.getAll);
-branchRouter.post('/', branchController.createBranch);
-branchRouter.patch('/', branchController.updateBranch);
-branchRouter.delete('/', branchController.deleteBranch);
+branchRouter.post('/', branchController.create);
+branchRouter.patch('/:id', branchController.update);
+branchRouter.delete('/:id', branchController.delete);

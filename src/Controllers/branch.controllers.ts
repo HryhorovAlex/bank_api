@@ -1,7 +1,8 @@
 import e, { NextFunction, Request, Response } from 'express';
-import { IBranch } from '../Interfaces';
+import { IBranch, INewBranch } from '../Interfaces';
 import { branchService, IBranchService } from '../Services';
 import { ApiError } from '../utils/ApiError';
+import { isNumber } from '../utils/isNumber';
 
 export class BranchController {
 
@@ -13,18 +14,15 @@ export class BranchController {
 
   public getOne = async({ params: { id }}: Request, res: Response, next: NextFunction) => {
     try {
-      const branch: IBranch | void = await this.branchService.getOne(Number(id));
-      if (branch) {
-        res.status(200).json(branch);
-      } else {
-        next(ApiError.notExist(`Branch with id ${id} doesn't exist`))
-      }
+      const idToNumber = isNumber(id);
+      const branch: IBranch = await this.isBranchExist(idToNumber)
+      res.status(200).json(branch);
     } catch (error) {
       next(error);
     }
   }
 
-  public getAll = async (req: Request, res: Response, next: NextFunction) => {
+  public getAll = async (_: Request, res: Response, next: NextFunction) => {
     try {
       const branches: IBranch[] = await this.branchService.getAll();
       res.status(200).json(branches);
@@ -33,37 +31,43 @@ export class BranchController {
     }
   }
 
-  public createBranch = async(req: Request, res: Response, next: NextFunction) => {
+  public create = async({ body }: Request, res: Response, next: NextFunction) => {
     try {
-      const branch: string = await new Promise((resolve) =>
-        setTimeout(() => resolve('Created a new branch'), 1000)
-      );
-      res.status(200).json({ branch });
+      const newBranch: INewBranch = await this.branchService.create(body);
+      res.status(201).json(newBranch);
     } catch (error) {
       next(error);
     }
   }
 
-  public updateBranch = async (req: Request, res: Response, next: NextFunction) => {
+  public update = async ({ params: { id }, body }: Request, res: Response, next: NextFunction) => {
     try {
-      const branch: string = await new Promise((resolve) =>
-        setTimeout(() => resolve('Updated a branch'), 1000)
-      );
-      res.status(200).json({ branch });
+      const idToNumber = isNumber(id);
+      await this.isBranchExist(idToNumber);
+      const updatedBranch = await this.branchService.update(idToNumber, body)
+      res.status(200).json(updatedBranch);
     } catch (error) {
       next(error);
     }
   }
 
-  public deleteBranch = async (req: Request, res: Response, next: NextFunction) => {
+  public delete = async ({ params: { id }}: Request, res: Response, next: NextFunction) => {
     try {
-      const branch: string = await new Promise((resolve) =>
-        setTimeout(() => resolve('Deleted a branch'), 1000)
-      );
-      res.status(200).json({ branch });
+      const idToNumber = isNumber(id);
+      const branch: IBranch = await this.isBranchExist(idToNumber);
+      await this.branchService.delete(idToNumber)
+      res.status(200).json(branch);
     } catch (error) {
       next(error);
     }
+  }
+
+  private isBranchExist = async (id: number): Promise<IBranch> => {
+    const branch: IBranch | void = await this.branchService.getOne(id);
+    if (!branch) {
+      throw ApiError.notExist(`Branch with id ${id} doesn't exist`)
+    } 
+    return branch
   }
 }
 

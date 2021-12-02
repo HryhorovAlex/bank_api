@@ -1,4 +1,4 @@
-import { DeleteResult, getRepository, Repository, UpdateResult } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import { Branch } from '../entity/branch.entity';
 import { IBranch, INewBranch, IUpdateBranch } from '../Interfaces';
 
@@ -6,8 +6,8 @@ export interface IBranchService {
   getOne: (id: number) => Promise<IBranch | void>;
   getAll: () => Promise<IBranch[]>;
   create: (user: INewBranch) => Promise<IBranch>;
-  delete: (id: number) => Promise<number>;
-  update: (id: number, user: IUpdateBranch) => Promise<any>;
+  delete: (id: number) => Promise<void>;
+  update: (id: number, user: IUpdateBranch) => Promise<IBranch>;
 }
 
 export class BranchService implements IBranchService {
@@ -23,22 +23,18 @@ export class BranchService implements IBranchService {
 
   public create = async (newBranch: INewBranch): Promise<IBranch> => {
     const repository: Repository<Branch> = getRepository(Branch);
-    const result: Branch = await repository.create(newBranch);
-    await repository.save(result);
-    return result;
+    const result: Branch = repository.create(newBranch);
+    return repository.save(result);
   };
 
-  public delete = async (id: number): Promise<number> => {
-    const repository: Repository<Branch> = getRepository(Branch);
-    const result: DeleteResult = await repository.delete(id);
-    return id;
+  public delete = async (id: number): Promise<void> => {
+    await getRepository(Branch).delete(id);
   }
 
-  public update = async (id: number, updateBranch: IUpdateBranch): Promise<any> => {
+  public update = async (id: number, updateBranch: IUpdateBranch): Promise<IBranch> => {
     const repository: Repository<Branch> = getRepository(Branch);
-    const result: UpdateResult = await repository.update(id, updateBranch);
-    const branch: any = repository.findOne(id);
-    return branch;
+    await repository.update(id, updateBranch);
+    return repository.findOne(id) as Promise<IBranch>;
   }
 }
 

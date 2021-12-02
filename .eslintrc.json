@@ -19,6 +19,9 @@
     ],
     "rules": {
         "semi": ["error", "always"],
-        "promise/param-names": false
+        "promise/param-names": false,
+        "no-unused-expressions": "warn",
+        "no-unused-vars": "warn",
+        "no-unused-labels": "warn"
     }
 }
