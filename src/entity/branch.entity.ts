@@ -3,15 +3,15 @@ import { IdNameColumns } from '../db/shared-columns';
 
 @Entity()
 export class Branch extends IdNameColumns {
-  @Column()
+  @Column({ length: 30 })
   address: string;
 
-  @Column()
+  @Column({ length: 20 })
   city: string;
 
-  @Column()
+  @Column({ length: 2 })
   state: string;
 
-  @Column()
+  @Column({ length: 12 })
   zip: string;
 }
