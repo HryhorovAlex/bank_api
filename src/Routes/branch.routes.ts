@@ -4,7 +4,7 @@ import { branchController } from '../Controllers';
 
 export const branchRouter: Router = Router();
 
-branchRouter.get('/:branchId', branchController.getOne);
+branchRouter.get('/:id', branchController.getOne);
 branchRouter.get('/', branchController.getAll);
 branchRouter.post('/', branchController.createBranch);
 branchRouter.patch('/', branchController.updateBranch);

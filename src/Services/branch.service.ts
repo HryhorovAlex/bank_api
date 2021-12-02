@@ -42,4 +42,4 @@ export class BranchService implements IBranchService {
   }
 }
 
-export const userService = new BranchService();
+export const branchService = new BranchService();

@@ -10,7 +10,7 @@ createConnection({
   password: process.env.MYSQLDB_ROOT_PASSWORD,
   database: process.env.MYSQLDB_DATABASE,
   entities: ['src/entity/*.ts'],
-  logging: true,
+  logging: false,
   synchronize: true,
 })
   .then(async (connection: Connection) => {

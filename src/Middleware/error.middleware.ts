@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { ApiError } from '../utils/ApiError';
+import { ApiError, IErrorInterface } from '../utils/ApiError';
 
-export const errorMiddleware = (err: any, req: Request, res: Response, next: NextFunction) => {
-  console.log(err);
+export const errorMiddleware = (err: IErrorInterface, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof ApiError) {
-    res.status((err as any).code).json((err as any).message);
+    res.status(err.code).json(err.msg);
     return;
   }
 

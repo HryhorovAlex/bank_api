@@ -1,3 +1,7 @@
+export interface IErrorInterface {
+  msg: string;
+  code: number;
+}
 export class ApiError {
   protected readonly code: number;
 
@@ -10,6 +14,10 @@ export class ApiError {
 
   static badRequest(msg: string) {
     return new ApiError(400, msg);
+  }
+
+  static notExist(msg: string) {
+    return new ApiError(404, msg);
   }
 
   static internal(msg: string) {
