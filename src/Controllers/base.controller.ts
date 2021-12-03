@@ -4,12 +4,18 @@ import { ApiError } from '../utils/ApiError';
 import { isNumber } from '../utils/isNumber';
 
 
+interface IBaseControllerParams<E> {
+  service: BaseService<E>;
+  routeName?: string
+}
 export class BaseController<E> {
 
   protected readonly service: BaseService<E>
+  protected readonly routeName: string;
 
-  constructor(service: BaseService<E>) {
+  constructor({ service, routeName }: IBaseControllerParams<E>) {
     this.service = service;
+    this.routeName = routeName || this.getServiceName(service.constructor.name)
   }
 
   public getOne = async ({ params: { id } }: Request, res: Response, next: NextFunction) => {
@@ -65,8 +71,12 @@ export class BaseController<E> {
   private isRecordExist = async (id: number): Promise<E> => {
     const record: E | void = await this.service.getOne(id);
     if (!record) {
-      throw ApiError.notExist(`Branch with id ${id} doesn't exist`)
+      throw ApiError.notExist(`${this.routeName} with id ${id} doesn't exist`)
     }
     return record
+  }
+
+  private getServiceName = (serviceName: string): string => {
+    return serviceName.substring(0, serviceName.search("Service"));
   }
 }

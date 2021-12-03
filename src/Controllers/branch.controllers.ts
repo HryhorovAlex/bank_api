@@ -5,6 +5,6 @@ import { BaseController } from './base.controller';
 export class BranchController extends BaseController<Branch> {
   protected readonly branchService: IBranchService;
   constructor(branchService: IBranchService) {
-    super(branchService)
+    super({ service: branchService })
   }
 }
