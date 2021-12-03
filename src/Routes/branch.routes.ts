@@ -1,11 +1,23 @@
 import { Router } from 'express';
 
-import { branchController } from '../Controllers';
+import { BranchController } from '../Controllers';
+import { IBranchService } from '../Services';
 
-export const branchRouter: Router = Router();
+interface IGetBranchRouter {
+  branchService: IBranchService;
+}
 
-branchRouter.get('/:id', branchController.getOne);
-branchRouter.get('/', branchController.getAll);
-branchRouter.post('/', branchController.create);
-branchRouter.patch('/:id', branchController.update);
-branchRouter.delete('/:id', branchController.delete);
+export const getBranchRouter = ({ branchService }: IGetBranchRouter): Router => {
+  const branchRouter: Router = Router();
+
+  const branchController = new BranchController(branchService);
+
+  branchRouter.get('/:id', branchController.getOne);
+  branchRouter.get('/', branchController.getAll);
+  branchRouter.post('/', branchController.create);
+  branchRouter.patch('/:id', branchController.update);
+  branchRouter.delete('/:id', branchController.delete);
+
+  return branchRouter;
+}
+

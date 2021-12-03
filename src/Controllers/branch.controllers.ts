@@ -1,6 +1,6 @@
-import  { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { IBranch, INewBranch } from '../Interfaces';
-import { branchService, IBranchService } from '../Services';
+import { IBranchService } from '../Services';
 import { ApiError } from '../utils/ApiError';
 import { isNumber } from '../utils/isNumber';
 
@@ -8,11 +8,11 @@ export class BranchController {
 
   protected readonly branchService: IBranchService;
 
-  constructor() {
+  constructor(branchService: IBranchService) {
     this.branchService = branchService;
   }
 
-  public getOne = async({ params: { id }}: Request, res: Response, next: NextFunction) => {
+  public getOne = async ({ params: { id } }: Request, res: Response, next: NextFunction) => {
     try {
       const idToNumber = isNumber(id);
       const branch: IBranch = await this.isBranchExist(idToNumber)
@@ -31,7 +31,7 @@ export class BranchController {
     }
   }
 
-  public create = async({ body }: Request, res: Response, next: NextFunction) => {
+  public create = async ({ body }: Request, res: Response, next: NextFunction) => {
     try {
       const newBranch: INewBranch = await this.branchService.create(body);
       res.status(201).json(newBranch);
@@ -51,7 +51,7 @@ export class BranchController {
     }
   }
 
-  public delete = async ({ params: { id }}: Request, res: Response, next: NextFunction) => {
+  public delete = async ({ params: { id } }: Request, res: Response, next: NextFunction) => {
     try {
       const idToNumber = isNumber(id);
       const branch: IBranch = await this.isBranchExist(idToNumber);
@@ -66,9 +66,7 @@ export class BranchController {
     const branch: IBranch | void = await this.branchService.getOne(id);
     if (!branch) {
       throw ApiError.notExist(`Branch with id ${id} doesn't exist`)
-    } 
+    }
     return branch
   }
 }
-
-export const branchController = new BranchController();

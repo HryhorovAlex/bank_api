@@ -11,20 +11,23 @@ export interface IBranchService {
 }
 
 export class BranchService implements IBranchService {
+
+  private readonly repository: Repository<Branch>
+  constructor() {
+    this.repository = getRepository(Branch)
+  }
+
   public async getOne(id: number): Promise<IBranch | void> {
-    const repository: Repository<Branch> = getRepository(Branch);
-    return repository.findOne(id);
+    return this.repository.findOne(id);
   }
 
   public async getAll(): Promise<Branch[]> {
-    const repository: Repository<Branch> = getRepository(Branch);
-    return repository.find();
+    return this.repository.find();
   }
 
   public create = async (newBranch: INewBranch): Promise<IBranch> => {
-    const repository: Repository<Branch> = getRepository(Branch);
-    const result: Branch = repository.create(newBranch);
-    return repository.save(result);
+    const result: Branch = this.repository.create(newBranch);
+    return this.repository.save(result);
   };
 
   public delete = async (id: number): Promise<void> => {
@@ -32,10 +35,7 @@ export class BranchService implements IBranchService {
   }
 
   public update = async (id: number, updateBranch: IUpdateBranch): Promise<IBranch> => {
-    const repository: Repository<Branch> = getRepository(Branch);
-    await repository.update(id, updateBranch);
-    return repository.findOne(id) as Promise<IBranch>;
+    await this.repository.update(id, updateBranch);
+    return this.repository.findOne(id) as Promise<IBranch>;
   }
 }
-
-export const branchService = new BranchService();

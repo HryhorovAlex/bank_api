@@ -1,2 +1,2 @@
-export { userService, IUserService } from './user.service';
-export { branchService, IBranchService } from './branch.service';
+// export { userService, IUserService } from './user.service';
+export { BranchService, IBranchService } from './branch.service';
