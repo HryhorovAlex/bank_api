@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { FullNameColumns } from '../db/shared-columns';
 import { Branch } from './branch.entity';
 import { Department } from './department.entity';
@@ -14,9 +14,8 @@ export class Employee extends FullNameColumns {
   @Column()
   endDate: Date;
 
-  // @ManyToMany(() => Employee, (employee) => employee.id)
-  // @JoinTable()
-  @Column()
+  @ManyToOne(_ => Employee)
+  @JoinColumn({ name: "superiorEmp" })
   superiorEmp: number;
 
   @ManyToOne(() => Department, (department) => department.id)
