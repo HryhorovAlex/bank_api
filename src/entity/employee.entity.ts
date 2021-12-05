@@ -11,19 +11,25 @@ export class Employee extends FullNameColumns {
   @Column()
   stateDate: Date;
 
-  @Column()
+  @Column({ nullable: true })
   endDate: Date;
 
-  @ManyToOne(_ => Employee)
-  @JoinColumn({ name: "superiorEmp" })
+  @ManyToOne((_) => Employee)
+  @JoinColumn({ name: 'superiorEmp' })
   superiorEmp: number;
 
+  // @Column({ nullable: true })
+  // deptId: number;
+
+  // @ManyToOne(() => Department, { eager: true })
   @ManyToOne(() => Department, (department) => department.id)
+  @JoinColumn({ name: 'dept' })
   dept: number;
 
   @Column()
   title: string;
 
   @ManyToOne(() => Branch, (branch) => branch.id)
+  @JoinColumn({ name: 'assignedBranch' })
   assignedBranch: number;
 }

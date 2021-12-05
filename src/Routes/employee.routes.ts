@@ -1,11 +1,22 @@
 import { Router } from 'express';
 
-import { employeeController } from '../Controllers';
+import { EmployeeController } from '../Controllers';
+import { IEmployeeService } from '../Services';
 
-export const employeeRouter: Router = Router();
+interface IGetEmployeeRouter {
+  employeeService: IEmployeeService;
+}
 
-employeeRouter.get('/:employeeId', employeeController.getOne);
-employeeRouter.get('/', employeeController.getAll);
-employeeRouter.post('/', employeeController.createEmployee);
-employeeRouter.patch('/', employeeController.updateEmployee);
-employeeRouter.delete('/', employeeController.deleteEmployee);
+export const getEmployeeRouter = ({ employeeService }: IGetEmployeeRouter): Router => {
+  const employeeRouter: Router = Router();
+
+  const employeeController = new EmployeeController(employeeService);
+
+  employeeRouter.get('/:id', employeeController.getOne);
+  employeeRouter.get('/', employeeController.getAll);
+  employeeRouter.post('/', employeeController.create);
+  employeeRouter.patch('/:id', employeeController.update);
+  employeeRouter.delete('/:id', employeeController.delete);
+
+  return employeeRouter;
+};

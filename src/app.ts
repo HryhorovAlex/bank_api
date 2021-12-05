@@ -2,10 +2,9 @@ import express, { Application, Router } from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 
-import { getBranchRouter } from './Routes';
+import { getBranchRouter, getEmployeeRouter, getDepartmentRouter } from './Routes';
 import { authMiddleWare, noRouteMiddleWare, errorMiddleware } from './Middleware';
 import { getServices, IGetServices } from './utils/getServices';
-import { getDepartmentRouter } from './Routes/department.routes';
 
 dotenv.config();
 
@@ -14,10 +13,11 @@ export const runServer = () => {
 
   const port: string = process.env.PORT!;
 
-  const { branchService, departmentService }: IGetServices = getServices()
+  const { branchService, departmentService, employeeService }: IGetServices = getServices();
 
-  const branch: Router = getBranchRouter({ branchService })
-  const department: Router = getDepartmentRouter({ departmentService })
+  const branch: Router = getBranchRouter({ branchService });
+  const department: Router = getDepartmentRouter({ departmentService });
+  const employee: Router = getEmployeeRouter({ employeeService });
 
   app.use(bodyParser.json());
 
@@ -27,8 +27,7 @@ export const runServer = () => {
 
   app.use('/branch', branch);
   app.use('/department', department);
-
-  // app.use('/employee', employeeRouter);
+  app.use('/employee', employee);
 
   // app.use('/user', userRouter);
 
