@@ -20,7 +20,7 @@ export class Account {
   @Column()
   openDate: Date;
 
-  @Column()
+  @Column({ nullable: true })
   closeDate: Date;
 
   @Column()

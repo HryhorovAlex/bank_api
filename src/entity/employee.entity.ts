@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { FullNameColumns } from '../db/shared-columns';
+import { Account } from './account.entity';
 import { Branch } from './branch.entity';
 import { Department } from './department.entity';
 
@@ -18,10 +19,6 @@ export class Employee extends FullNameColumns {
   @JoinColumn({ name: 'superiorEmp' })
   superiorEmp: number;
 
-  // @Column({ nullable: true })
-  // deptId: number;
-
-  // @ManyToOne(() => Department, { eager: true })
   @ManyToOne(() => Department, (department) => department.id)
   @JoinColumn({ name: 'dept' })
   dept: number;
@@ -32,4 +29,7 @@ export class Employee extends FullNameColumns {
   @ManyToOne(() => Branch, (branch) => branch.id)
   @JoinColumn({ name: 'assignedBranch' })
   assignedBranch: number;
+
+  @OneToMany(() => Account, (account) => account.openEmpId)
+  openedAccount: Account[];
 }

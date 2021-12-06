@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { IdNameColumns } from '../db/shared-columns';
+import { Employee } from './employee.entity';
 
 @Entity()
 export class Branch extends IdNameColumns {
@@ -14,4 +15,7 @@ export class Branch extends IdNameColumns {
 
   @Column({ length: 12 })
   zip: string;
+
+  @OneToMany(() => Employee, (employee) => employee.id)
+  employee: Employee[];
 }
