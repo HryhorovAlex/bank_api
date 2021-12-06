@@ -1,7 +1,7 @@
 import { createConnection, Connection } from 'typeorm';
 
 import { runServer } from './app';
-
+console.log(__dirname);
 createConnection({
   type: 'mysql',
   host: process.env.DB_HOST,
@@ -10,6 +10,11 @@ createConnection({
   password: process.env.MYSQLDB_ROOT_PASSWORD,
   database: process.env.MYSQLDB_DATABASE,
   entities: ['src/entity/*.ts'],
+  migrations: ['./migrations/*.ts'],
+  cli: {
+    // migrationsDir: process.env.TYPEORM_MIGRATIONS_DIR,
+    migrationsDir: 'src/migration',
+  },
   logging: false,
   synchronize: true,
 })
