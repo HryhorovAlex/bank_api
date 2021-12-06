@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Account } from './account.entity';
 
 @Entity()
 export class Customer {
@@ -9,10 +10,10 @@ export class Customer {
   fedId: string;
 
   @Column({ length: 2 })
-  custTypeCd: string;
+  customerTypeCd: string;
 
   @Column()
-  adress: string;
+  address: string;
 
   @Column()
   city: string;
@@ -22,4 +23,8 @@ export class Customer {
 
   @Column()
   postalCode: string;
+
+  @OneToMany(() => Account, (account) => account.customerId)
+  @JoinColumn({ name: 'accounts' })
+  accounts: Account[];
 }

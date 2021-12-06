@@ -15,6 +15,9 @@ export class Employee extends FullNameColumns {
   @Column({ nullable: true })
   endDate: Date;
 
+  @Column()
+  title: string;
+
   @ManyToOne((_) => Employee)
   @JoinColumn({ name: 'superiorEmp' })
   superiorEmp: number;
@@ -23,13 +26,11 @@ export class Employee extends FullNameColumns {
   @JoinColumn({ name: 'dept' })
   dept: number;
 
-  @Column()
-  title: string;
-
   @ManyToOne(() => Branch, (branch) => branch.id)
   @JoinColumn({ name: 'assignedBranch' })
   assignedBranch: number;
 
   @OneToMany(() => Account, (account) => account.openEmpId)
+  @JoinColumn({ name: 'openedAccount' })
   openedAccount: Account[];
 }

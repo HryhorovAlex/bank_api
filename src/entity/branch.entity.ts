@@ -1,6 +1,7 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
 import { IdNameColumns } from '../db/shared-columns';
 import { Employee } from './employee.entity';
+import { Transaction } from './transaction.entity';
 
 @Entity()
 export class Branch extends IdNameColumns {
@@ -18,4 +19,8 @@ export class Branch extends IdNameColumns {
 
   @OneToMany(() => Employee, (employee) => employee.id)
   employee: Employee[];
+
+  @OneToMany(() => Transaction, (transaction) => transaction.executionBranchId)
+  @JoinColumn({ name: 'transactions' })
+  transactions: Transaction[];
 }

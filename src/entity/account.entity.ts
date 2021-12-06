@@ -1,21 +1,22 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Branch } from './branch.entity';
 import { Customer } from './customer.entity';
 import { Employee } from './employee.entity';
 import { Product } from './product.entity';
+import { Transaction } from './transaction.entity';
 
 @Entity()
 export class Account {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @ManyToOne(() => Product, (product) => product.productCd)
-  @JoinColumn({ name: 'productCd' })
-  productCd: string;
-
-  @OneToOne(() => Customer, (customer) => customer.id)
-  @JoinColumn({ name: 'custId' })
-  custId: number;
 
   @Column()
   openDate: Date;
@@ -29,6 +30,20 @@ export class Account {
   @Column()
   status: string;
 
+  @Column('decimal', { precision: 2 })
+  availBalance: number;
+
+  @Column('decimal', { precision: 2 })
+  pendingBalance: number;
+
+  @ManyToOne(() => Product, (product) => product.productCd)
+  @JoinColumn({ name: 'productCd' })
+  productCd: string;
+
+  @ManyToOne(() => Customer, (customer) => customer.id)
+  @JoinColumn({ name: 'customerId' })
+  customerId: number;
+
   @OneToOne(() => Branch, (branch) => branch.id)
   @JoinColumn({ name: 'openBranchId' })
   openBranchId: number;
@@ -37,9 +52,7 @@ export class Account {
   @JoinColumn({ name: 'openEmpId' })
   openEmpId: number;
 
-  @Column('decimal', { precision: 2 })
-  availBalance: number;
-
-  @Column('decimal', { precision: 2 })
-  pendingBalance: number;
+  @OneToMany(() => Transaction, (transaction) => transaction.accountId)
+  @JoinColumn({ name: 'transactions' })
+  transactions: Transaction[];
 }

@@ -8,9 +8,8 @@ export class Transaction {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Account, (account) => account.id)
-  @JoinColumn({ name: 'accountId' })
-  accountId: number;
+  @Column()
+  txnDate: Date;
 
   @Column()
   txnTypeCd: string;
@@ -21,6 +20,10 @@ export class Transaction {
   @OneToOne(() => Employee, (employee) => employee.id)
   @JoinColumn({ name: 'tellerEmpId' })
   tellerEmpId: number;
+
+  @ManyToOne(() => Account, (account) => account.id)
+  @JoinColumn({ name: 'accountId' })
+  accountId: number;
 
   @ManyToOne(() => Branch, (branch) => branch.id)
   @JoinColumn({ name: 'executionBranchId' })

@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { FullNameColumns } from '../db/shared-columns';
 import { Business } from './business.entity';
 
@@ -7,7 +7,7 @@ export class Officer extends FullNameColumns {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToMany(() => Business, (business) => business.customerId)
+  @ManyToOne(() => Business, (business) => business.customerId)
   @JoinColumn({ name: 'customerId' })
   customerId: number;
 

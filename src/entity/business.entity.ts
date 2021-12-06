@@ -4,8 +4,6 @@ import { Customer } from './customer.entity';
 @Entity()
 export class Business {
   @PrimaryGeneratedColumn()
-  id: number;
-
   @OneToOne(() => Customer, (customer) => customer.id)
   @JoinColumn({ name: 'customerId' })
   customerId: number;
