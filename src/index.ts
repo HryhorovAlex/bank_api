@@ -1,7 +1,6 @@
 import { createConnection, Connection } from 'typeorm';
 
 import { runServer } from './app';
-console.log(__dirname);
 createConnection({
   type: 'mysql',
   host: process.env.DB_HOST,

@@ -10,7 +10,6 @@ import {
 } from './Routes';
 import { authMiddleWare, noRouteMiddleWare, errorMiddleware } from './Middleware';
 import { getServices, IGetServices } from './utils/getServices';
-import './test-faker';
 
 dotenv.config();
 

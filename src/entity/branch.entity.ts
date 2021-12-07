@@ -8,13 +8,13 @@ import { Transaction } from './transaction.entity';
 export class Branch extends IdNameColumns {
   @Column({ length: 30 })
   @Fixture((faker) => faker.address.streetName())
-  address: string;
+  street: string;
 
   @Column({ length: 20 })
   @Fixture((faker) => faker.address.city())
   city: string;
 
-  @Column({ length: 2 })
+  @Column({ length: 12 })
   @Fixture((faker) => faker.address.state(true))
   state: string;
 
