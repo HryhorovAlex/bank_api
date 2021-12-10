@@ -1,3 +1,4 @@
+import { Fixture } from 'class-fixtures-factory';
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Account } from './account.entity';
 
@@ -7,21 +8,23 @@ export class Customer {
   id: number;
 
   @Column({ length: 12 })
-  fedId: string;
-
-  @Column({ length: 2 })
-  customerTypeCd: string;
+  @Fixture((faker) => faker.phone.phoneNumber())
+  phoneNumber: string;
 
   @Column()
-  address: string;
+  @Fixture((faker) => faker.address.streetName())
+  street: string;
 
   @Column()
+  @Fixture((faker) => faker.address.city())
   city: string;
 
   @Column()
+  @Fixture((faker) => faker.address.state())
   state: string;
 
   @Column()
+  @Fixture((faker) => faker.address.zipCode())
   postalCode: string;
 
   @OneToMany(() => Account, (account) => account.customerId)

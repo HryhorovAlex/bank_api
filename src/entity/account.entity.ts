@@ -36,9 +36,9 @@ export class Account {
   @Column('decimal', { precision: 2 })
   pendingBalance: number;
 
-  @ManyToOne(() => Product, (product) => product.productCd)
-  @JoinColumn({ name: 'productCd' })
-  productCd: string;
+  @ManyToOne(() => Product, (product) => product.id)
+  @JoinColumn({ name: 'products' })
+  products: Product[];
 
   @ManyToOne(() => Customer, (customer) => customer.id)
   @JoinColumn({ name: 'customerId' })

@@ -13,7 +13,7 @@ export class Employee extends FullNameColumns {
   stateDate: Date;
 
   @Column({ nullable: true })
-  endDate: Date;
+  endDate?: Date;
 
   @Column()
   title: string;

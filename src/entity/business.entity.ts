@@ -12,8 +12,8 @@ export class Business {
   name: string;
 
   @Column()
-  stateId: string;
+  state: string;
 
   @Column()
-  incorpDate: string;
+  incorporationDate: Date;
 }
