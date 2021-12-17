@@ -14,6 +14,6 @@ export class Business {
   @Column()
   state: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   incorporationDate: Date;
 }

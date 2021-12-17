@@ -2,9 +2,10 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Branch } from './branch.entity';
@@ -18,13 +19,13 @@ export class Account {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
   openDate: Date;
 
   @Column({ nullable: true })
   closeDate: Date;
 
-  @Column()
+  @Column({ type: 'varchar' })
   lastActivityDate: Date;
 
   @Column()
@@ -36,19 +37,19 @@ export class Account {
   @Column('decimal', { precision: 2 })
   pendingBalance: number;
 
-  @ManyToOne(() => Product, (product) => product.id)
-  @JoinColumn({ name: 'products' })
+  @ManyToMany(() => Product, (product) => product.id)
+  @JoinTable()
   products: Product[];
 
   @ManyToOne(() => Customer, (customer) => customer.id)
   @JoinColumn({ name: 'customerId' })
   customerId: number;
 
-  @OneToOne(() => Branch, (branch) => branch.id)
+  @ManyToOne(() => Branch, (branch) => branch.id)
   @JoinColumn({ name: 'openBranchId' })
   openBranchId: number;
 
-  @OneToOne(() => Employee, (employee) => employee.id)
+  @ManyToOne(() => Employee, (employee) => employee.id)
   @JoinColumn({ name: 'openEmpId' })
   openEmpId: number;
 

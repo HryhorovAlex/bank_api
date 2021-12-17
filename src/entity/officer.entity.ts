@@ -14,9 +14,9 @@ export class Officer extends FullNameColumns {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   startDate: Date;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'date' })
   endDate: Date | null;
 }

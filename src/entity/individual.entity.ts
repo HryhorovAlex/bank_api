@@ -9,6 +9,6 @@ export class Individual extends FullNameColumns {
   @JoinColumn({ name: 'customerId' })
   customerId: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
   birthDate: Date;
 }
