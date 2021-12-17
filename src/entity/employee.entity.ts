@@ -9,7 +9,7 @@ export class Employee extends FullNameColumns {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
   stateDate: Date;
 
   @Column({ nullable: true })
